@@ -1,0 +1,88 @@
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #22c55e;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.container {
+  color: var(--text);
+  background: linear-gradient(180deg, #0b1020, #0a0f1e);
+  padding: 24px;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.controls { margin-bottom: 16px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); align-items: end; }
+
+label { display: grid; gap: 4px; font-size: 14px; color: var(--muted); }
+input, select, button { height: 36px; border-radius: 8px; border: 1px solid #384152; background: #0b1220; color: var(--text); padding: 0 10px; }
+button { background: #1f2937; cursor: pointer; }
+button:hover { background: #283345; }
+.button-like { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px dashed #334155; border-radius: 8px; cursor: pointer; }
+
+.charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.chart-item { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); padding: 8px; border-radius: 12px; }
+
+.error { color: #ef4444; }
+
+footer { margin-top: 24px; color: var(--muted); }
