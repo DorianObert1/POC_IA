@@ -7,6 +7,7 @@ import { ChartPanel } from './components/ChartPanel'
 import { DataEditor } from './components/DataEditor'
 import { ReportPanel } from './components/ReportPanel'
 import type { ChartPanelHandle } from './components/ChartPanel'
+import { Link } from 'react-router-dom'
 
 function downsampleHalf<T>(arr: T[]) { return arr.filter((_, i) => i % 2 === 0) }
 
@@ -41,6 +42,7 @@ function App() {
         <div style={{ display: 'flex', gap: 8 }}>
           <button onClick={captureCharts}>Capturer les graphiques</button>
           <small>{chartImages.length ? `${chartImages.length} images prêtes` : ''}</small>
+          <Link to="/rapports" style={{ marginLeft: 'auto' }}>Voir les rapports</Link>
         </div>
       </header>
 
