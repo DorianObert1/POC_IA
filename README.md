@@ -20,7 +20,7 @@ npm install
 # export VITE_OLLAMA_AUTH_HEADER=Authorization   # ou X-API-Key
 # export VITE_OLLAMA_AUTH_SCHEME=Bearer          # ou vide
 
-npm run dev
+npm run dev:full
 ```
 
 - L’app est servie sur http://localhost:5173.
