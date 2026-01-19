@@ -38,9 +38,38 @@ export async function pingOllama(): Promise<PingInfo> {
 }
 
 export async function listModels(): Promise<string[]> {
-  const res = await fetch(`${base}/api/tags`).catch(() => undefined)
-  if (!res?.ok) return []
+  let res: Response
+  try {
+    res = await fetch(`${base}/api/tags`)
+  } catch (e: any) {
+    throw new Error(`Connexion impossible vers ${base}/api/tags : ${e?.message || e}`)
+  }
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    throw new Error(`Liste des modèles: ${res.status} ${res.statusText} — ${body.slice(0, 200)}`)
+  }
   const data = await res.json().catch(() => ({}))
-  const models = Array.isArray(data?.models) ? data.models : []
+  const models = Array.isArray((data as any)?.models) ? (data as any).models : []
   return models.map((m: any) => m.name).filter((n: any) => typeof n === 'string')
+}
+
+// Appel du service backend qui génère le rapport + PDF (modèle gpt-oss:20b côté serveur)
+export async function fetchReportPdf(params: { context?: string; locale?: string; tone?: string }): Promise<Blob> {
+  const qs = new URLSearchParams()
+  if (params.context) qs.set('context', params.context)
+  if (params.locale) qs.set('locale', params.locale)
+  if (params.tone) qs.set('tone', params.tone)
+
+  const url = `${base}/api/report?${qs.toString()}`
+  let res: Response
+  try {
+    res = await fetch(url)
+  } catch (e: any) {
+    throw new Error(`Connexion impossible vers ${url} : ${e?.message || e}`)
+  }
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    throw new Error(`Génération du rapport: ${res.status} ${res.statusText} — ${body.slice(0, 200)}`)
+  }
+  return await res.blob()
 }

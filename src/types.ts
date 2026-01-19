@@ -10,6 +10,9 @@ export type Dataset = DataPoint[]
 
 export type Filters = {
   categories: string[]
+  startDate?: string
+  endDate?: string
+  context?: string
 }
 
 export type ReportOptions = {

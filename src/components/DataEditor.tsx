@@ -38,6 +38,27 @@ export function DataEditor({ data, setData, filters, setFilters }: {
           </select>
         </label>
       </div>
+      <div style={{ marginTop: 12, textAlign: 'left' }}>
+        <label style={{ display: 'block', fontSize: 14, color: '#9ca3af', marginBottom: 4 }}>
+          Contexte du rapport
+        </label>
+        <textarea
+          rows={4}
+          value={filters.context || ''}
+          onChange={(e) => setFilters({ ...filters, context: e.target.value || undefined })}
+          placeholder="Décrivez ici le contexte métier, l’objectif de l’analyse, le public cible, les points d’attention spécifiques…"
+          style={{
+            width: '100%',
+            borderRadius: 8,
+            border: '1px solid #384152',
+            background: '#0b1220',
+            color: 'var(--text)',
+            padding: 8,
+            resize: 'vertical',
+            minHeight: 80,
+          }}
+        />
+      </div>
       <details>
         <summary>Importer/Exporter JSON</summary>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
