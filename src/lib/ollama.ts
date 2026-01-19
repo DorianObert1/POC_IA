@@ -54,16 +54,33 @@ export async function listModels(): Promise<string[]> {
 }
 
 // Appel du service backend qui génère le rapport + PDF (modèle gpt-oss:20b côté serveur)
-export async function fetchReportPdf(params: { context?: string; locale?: string; tone?: string }): Promise<Blob> {
-  const qs = new URLSearchParams()
-  if (params.context) qs.set('context', params.context)
-  if (params.locale) qs.set('locale', params.locale)
-  if (params.tone) qs.set('tone', params.tone)
-
-  const url = `${base}/api/report?${qs.toString()}`
+// Nouveau contrat: l'endpoint peut recevoir un ou plusieurs blocs JSON à analyser.
+export async function fetchReportPdf(params: {
+  context?: string
+  locale?: string
+  tone?: string
+  jsons?: unknown[]
+  // Compat legacy: on propage encore data/charts mais le serveur privilégie jsons s'il est fourni.
+  data?: unknown
+  charts?: unknown
+}): Promise<Blob> {
+  // Nouveau flux: POST JSON avec les données filtrées pour permettre un chaînage de prompts côté serveur.
+  // Fallback implicite: si le serveur ne supporte pas encore le POST, il renverra une erreur explicite.
+  const url = `${base}/api/report`
   let res: Response
   try {
-    res = await fetch(url)
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        context: params.context || '',
+        locale: params.locale || 'fr',
+        tone: params.tone || 'neutre',
+        jsons: params.jsons,
+        data: params.data,
+        charts: params.charts,
+      }),
+    })
   } catch (e: any) {
     throw new Error(`Connexion impossible vers ${url} : ${e?.message || e}`)
   }

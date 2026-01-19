@@ -18,7 +18,6 @@ export async function chooseReportsDirectory(): Promise<PersistedDirHandle | nul
 
 export async function persistDirHandle(handle: PersistedDirHandle): Promise<void> {
   try {
-    const serialized = await (handle as any).queryPermission ? handle : handle
     // Store via Indexed Storage (Origin Private File System) using localStorage with serialization via File System Access API
     // Most browsers allow storing the handle directly with structured clone in IndexedDB; we fallback to localStorage with no-op
     // Here we use localStorage token marker only; actual handle is kept via window object session when re-requested with "showDirectoryPicker".
@@ -45,12 +44,9 @@ export async function getPersistedDirHandle(): Promise<PersistedDirHandle | null
 
 export async function verifyPermission(handle: FileSystemHandle, write: boolean): Promise<boolean> {
   if (!('queryPermission' in handle)) return false
-  // @ts-expect-error: types vary per browser
   const opts = { mode: write ? 'readwrite' : 'read' }
-  // @ts-expect-error
   let perm = await (handle as any).queryPermission(opts)
   if (perm === 'granted') return true
-  // @ts-expect-error
   perm = await (handle as any).requestPermission(opts)
   return perm === 'granted'
 }
